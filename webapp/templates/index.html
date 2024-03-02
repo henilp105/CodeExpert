@@ -1,0 +1,279 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        form {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        input[type="file"], textarea {
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        input[type="file"]:focus, textarea:focus {
+            border-color: #66afe9;
+            outline: none;
+        }
+        
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        
+        textarea {
+            height: 100px;
+        }
+
+        .upload-animation {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .submitting .upload-animation {
+            display: inline-block;
+        }
+
+        #response {
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload a File</h1>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".zip" required><span class="upload-animation"></span><br>
+            <textarea name="prompt" placeholder="Enter a prompt..." required></textarea><br>
+            <input type="submit" value="Upload">
+        </form>
+        <div id="response">
+            {% if message %}
+            {{ message | safe }}
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function () {
+            document.querySelector('.upload-animation').style.display = 'inline-block';
+            document.querySelector('input[type="submit"]').disabled = true;
+            document.body.classList.add('submitting');
+        });
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-box {
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .bot-message {
+            text-align: left;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-container input[type="file"] {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .input-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .submitting .upload-animation {
+            display: inline-block;
+        }
+
+        #response {
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="bot-message message">Hello! Please upload a file and provide a prompt.</div>
+        </div>
+        
+        <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+            <div class="input-container">
+                <input type="file" name="file" accept=".zip" required>
+                <span class="upload-animation"></span>
+                <input type="submit" value="Upload">
+            </div>
+            <textarea name="prompt" placeholder="Enter a prompt..." required></textarea>
+        </form>
+        <div id="response" style="word-wrap: break-word;">
+            {% if message %}
+                <p>{{ message | safe }}</p>
+            {% endif %}
+        </div>        
+    </div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function (event) {
+            // event.preventDefault();
+            document.querySelector('.upload-animation').style.display = 'inline-block';
+            document.querySelector('input[type="submit"]').disabled = true;
+            document.body.classList.add('submitting');
+            
+            // Simulating a delay (2 seconds) for demonstration purposes
+            setTimeout(function() {
+                // You can perform further actions here, like submitting the form via AJAX
+                
+                // Example response
+                var responseBox = document.getElementById('chat-box');
+                var userPrompt = document.querySelector('textarea[name="prompt"]').value;
+                var message = '<div class="user-message message">' + userPrompt + '</div>';
+                responseBox.innerHTML += message;
+
+                // Reset form
+                document.getElementById('upload-form').reset();
+                document.querySelector('.upload-animation').style.display = 'none';
+                document.querySelector('input[type="submit"]').disabled = false;
+                document.body.classList.remove('submitting');
+                
+                // Scroll to bottom
+                responseBox.scrollTop = responseBox.scrollHeight;
+            }, 2000); // 2 seconds delay for demonstration
+        });
+    </script>
+</body>
+</html>
+
