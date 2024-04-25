@@ -29,7 +29,7 @@ def upload_zip(file, prompt):
     st.success(markdown_to_text(uploaded_file.response))
 
 def main():
-    st.title("File Upload to MongoDB Atlas")
+    st.title("CodeExpert")
 
     uploaded_file = st.file_uploader("Upload a Zip File", type="zip")
     prompt = st.text_input("Enter a prompt")
