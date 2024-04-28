@@ -26,7 +26,7 @@ def upload_zip(file, prompt):
         time.sleep(10)
         uploaded_file = fs.find_one({"_id": object_id, "flag": "True"})
 
-    st.success(markdown_to_text(uploaded_file.response))
+    st.success(uploaded_file.response)
 
 def main():
     st.title("CodeExpert")
